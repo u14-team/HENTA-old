@@ -18,3 +18,4 @@ exports.objectMap = (object, mapFn) => {
 }
 
 exports.getArrayRandom = items => items[Math.floor(Math.random()*items.length)];
+exports.randomElement = items => items[Math.floor(Math.random()*items.length)];

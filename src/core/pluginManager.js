@@ -1,4 +1,4 @@
-const { performance } = require('perf_hooks');
+const chalk = require('chalk');
 
 class PluginManager {
 	constructor(henta) {
@@ -15,35 +15,54 @@ class PluginManager {
 	}
 
 	loadPlugin(pluginName) {
-		this.plugins[pluginName] = {
-			name: pluginName,
-			instance: require(`${this.henta.botdir}/src/plugins/${pluginName}`),
-			startDuration: null
-		};
+		try {
+			const pluginClass = require(`${this.henta.botdir}/src/plugins/${pluginName}`);
 
-		this.instances[pluginName] = this.plugins[pluginName].instance;
+			this.plugins[pluginName] = {
+				name: pluginName,
+				instance: new pluginClass(this.henta)
+			};
+
+			this.instances[pluginName] = this.plugins[pluginName].instance;
+		} catch(e) {
+			this.henta.error(`Ошибка в плагине ${chalk.white(pluginName)} (конструктор):\n${e.stack}`);
+		}
 	}
 
 	async startPlugins() {
-		let pluginList = Object.values(this.plugins);
-		let timedFunction = (p, name, cb) => {
+		const pluginList = Object.values(this.plugins);
+		const timedFunction = (plugin, method) => {
 			return async () => {
-				let startAt = Date.now();
-				await cb();
-				p[name] = Date.now() - startAt;
+				const startAt = Date.now();
+
+				try {
+					await plugin.instance[method].call(plugin.instance, this.henta);
+				} catch(e) {
+					plugin[method + "Error"] = e;
+					this.henta.error(`Ошибка в плагине ${chalk.white(plugin.name)} (${chalk.white(method)}):\n${e.stack}`);
+				}
+
+				plugin[method + "Duration"] = Date.now() - startAt;
 			}
 		};
 
-		let initList = pluginList.filter(p => p.instance.init).map(p => timedFunction(p, 'initDuration', p.instance.init));
-		let startList = pluginList.filter(p => p.instance.start).map(p => timedFunction(p, 'startDuration', p.instance.start));
+		const initList = pluginList.filter(p => p.instance.init).map(p => timedFunction(p, 'init'));
+		const startList = pluginList.filter(p => p.instance.start).map(p => timedFunction(p, 'start'));
 
-		let res = Promise.all(initList.map(p => p()));
-		this.henta.logger.log("Инициализация плагинов прошла успешно.");
+		await Promise.all(initList.map(p => p()));
+		this.henta.log("Инициализация плагинов прошла успешно.");
+		if (pluginList.filter(p => p.initError).length > 0)
+			this.henta.warning(`Не инициализировались: ${pluginList.filter(p => p.initError).map(p => p.name)}`);
 		await Promise.all(startList.map(p => p()));
-		this.henta.logger.log("Запуск плагинов прошёл успешно.");
+		this.henta.log("Запуск плагинов прошёл успешно.");
+		if (pluginList.filter(p => p.startError).length > 0)
+			this.henta.warning(`Не запустились: ${pluginList.filter(p => p.startError).map(p => p.name)}`);
 	}
 
 	getInfo(pluginName) {
+		if(!this.plugins[pluginName])
+			throw new Error(`Plugin "${chalk.white(pluginName)}" not found`)
+
 		return this.plugins[pluginName];
 	}
 

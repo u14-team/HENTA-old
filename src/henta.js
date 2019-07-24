@@ -11,10 +11,8 @@ const utils = require("./core/utils");
 
 class Henta {
     constructor() {
-        Henta.instance = this;
-
         this.botdir = path.resolve(".");
-        this.version = "19.4a";
+        this.version = "19.7a";
 
         // Init subsystems
 		this.logger = new Logger(this);
@@ -24,6 +22,12 @@ class Henta {
 		this.hookManager = new HookManager(this);
 		this.utils = utils;
 		this.vk = new VK(this);
+
+        // Sugar
+        this.getPlugin = (pluginName) => this.pluginManager.get(pluginName);
+        this.log = (message) => this.logger.log(message);
+        this.warning = (message) => this.logger.warning(message);
+        this.error = (message) => this.logger.error(message);
     }
 
     async startEngine() {
@@ -32,15 +36,10 @@ class Henta {
         this.logger.log(`Бот запущен из директории: ${this.botdir}`);
 
         this.pluginManager.loadPlugins();
-        this.cmdline.exeConfig(this.botdir + "/config.cfg");
 
         await this.pluginManager.startPlugins();
         this.vk.runLinster().catch(console.error);
     }
-
-    static getInstance() {
-        return Henta.instance;
-    }
 }
 
-module.exports = { Henta, getInstance: Henta.getInstance };
+module.exports = { Henta };

@@ -25,6 +25,14 @@ class Cmdline {
         });
     }
 
+    question(str) {
+        return new Promise(resolve => this.rl.question(str, resolve));
+    }
+
+    async questionYN(str) {
+        return await this.question(`${str}? y/n`) === 'y';
+    }
+
     doCommandline(input) {
         let args = input.trim().split(' ');
         if (!args[0]) return;
