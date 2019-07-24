@@ -12,7 +12,7 @@ const utils = require("./core/utils");
 class Henta {
     constructor() {
         this.botdir = path.resolve(".");
-        this.version = "19.7a";
+        this.version = require('../package.json').version;
 
         // Init subsystems
 		this.logger = new Logger(this);

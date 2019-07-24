@@ -1,8 +1,8 @@
 {
   "name": "henta",
   "version": "1.0.0",
-  "description": "bot engine",
-  "main": "start.js",
+  "description": "engine for creating VKontakte bots",
+  "main": "src/henta.js",
   "dependencies": {
     "byline": "^5.0.0",
     "chalk": "^2.4.2",
@@ -15,8 +15,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo 'no tests'"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
