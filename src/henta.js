@@ -28,6 +28,7 @@ class Henta {
         this.log = (message) => this.logger.log(message);
         this.warning = (message) => this.logger.warning(message);
         this.error = (message) => this.logger.error(message);
+        this.getConfigValue = (field) => this.configManager.getConfig()[field];
     }
 
     async startEngine() {
