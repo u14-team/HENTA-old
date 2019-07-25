@@ -9,8 +9,8 @@ class PluginManager {
 	}
 
 	loadPlugins() {
-		let pluginsToLoad = require(`${this.henta.botdir}/src/plugins.js`);
-		pluginsToLoad.forEach(pluginName => this.loadPlugin(pluginName));
+		const pluginsToLoad = require(`${this.henta.botdir}/plugins.json`);
+		pluginsToLoad.map(p => p.path + '/' + p.name).forEach(pluginName => this.loadPlugin(pluginName));
 		this.henta.logger.log(`Загружено ${Object.keys(this.plugins).length} плагинов.`);
 	}
 
