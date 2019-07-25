@@ -1,13 +1,13 @@
 const path = require("path");
 
-const { Logger } = require("./core/logger");
-const { Cmdline } = require("./core/cmdline");
-const { ConfigManager } = require("./core/configManager");
-const { PluginManager } = require("./core/pluginManager");
-const { HookManager } = require("./core/hookManager");
-const { VK } = require("./vk/vk");
+const { Logger } = require("./logger");
+const { Cmdline } = require("./cmdline");
+const { ConfigManager } = require("./configManager");
+const { PluginManager } = require("./pluginManager");
+const { HookManager } = require("./hookManager");
+const { VK } = require("./vk");
 
-const utils = require("./core/utils");
+const utils = require("./utils");
 
 class Henta {
     constructor() {
@@ -39,7 +39,7 @@ class Henta {
         this.pluginManager.loadPlugins();
 
         await this.pluginManager.startPlugins();
-        this.vk.runLinster().catch(console.error);
+        this.vk.runLongpoll();
     }
 }
 
