@@ -30,7 +30,7 @@ class Cmdline {
     }
 
     async questionYN(str) {
-        return await this.question(`${str}? y/n`) === 'y';
+        return await this.question(`${str}? [y/n] `) === 'y';
     }
 
     doCommandline(input) {
