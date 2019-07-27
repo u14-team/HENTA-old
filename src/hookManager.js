@@ -23,10 +23,6 @@ class HookManager {
 
         return true;
     }
-
-    addAction(tag, func, priority = 500) { this.add(tag, func, priority) }
-    doAction(tag, ...args) { this.run(tag, ...args) }
-    doActionSync(tag, ...args) { this.run(tag, ...args) }
 }
 
 module.exports = { HookManager };

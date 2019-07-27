@@ -28,7 +28,7 @@ class VK {
         updates.startPolling = async () => {
             await startPollingOriginal();
             updates.pollingHandler = (update) => {
-                this.henta.hookManager.doAction(`vk_${update.type}`, update.object)
+                this.henta.hookManager.run(`vk_${update.type}`, update.object)
 					.catch(this.henta.error.bind(this.henta));
         	}
 		}
