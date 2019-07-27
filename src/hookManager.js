@@ -3,23 +3,25 @@ class HookManager {
         this.actions = {};
     }
 
-    addAction(tag, func, priority = 500) {
+    add(tag, func, priority = 500) {
         this.actions[tag] = this.actions[tag] || [];
         this.actions[tag].push({ func, priority });
         this.actions[tag].sort((a, b) => b.priority - a.priority);
     }
 
-    doActionSync(tag, ...args) {
+    async runOut(tag, ...args) {
+        if (!this.actions[tag]) return;
+        await Promise.all(this.actions[tag].map( a => a.func(...args) ));
+    }
+
+    async run(tag, ...args) {
         if (!this.actions[tag]) return true;
-        for (let value of this.actions[tag]) {
-            if (value.func(...args) == false) return false;
+
+        for (const value of this.actions[tag]) {
+            if (await value.func(...args) == false) return false;
         }
 
         return true;
-    }
-
-    async doAction(tag, ...args) {
-        return this.doActionSync(tag, ...args);
     }
 }
 

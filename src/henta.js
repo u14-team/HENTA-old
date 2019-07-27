@@ -29,15 +29,12 @@ class Henta {
         this.warning = (message) => this.logger.warning(message);
         this.error = (message) => this.logger.error(message);
         this.getConfigValue = (field) => this.configManager.getConfig()[field];
+        this.getConfigPrivateValue = (field) => this.configManager.getConfigPrivate()[field];
     }
 
     async startEngine() {
-        this.logger.log(`HENTA V${this.version}`);
-        this.logger.log(`Электро Волк 2019.`);
-        this.logger.log(`Бот запущен из директории: ${this.botdir}`);
-
+        this.logger.log(`HENTA ${this.version} (by Электро Волк 2019).`);
         this.pluginManager.loadPlugins();
-
         await this.pluginManager.startPlugins();
         this.vk.runLongpoll();
     }
