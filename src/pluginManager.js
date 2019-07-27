@@ -36,7 +36,9 @@ class PluginManager {
 				const startAt = Date.now();
 
 				try {
+					this.henta.hookManager.runOut(`plugin_${plugin.name}_${method}_start`);
 					await plugin.instance[method].call(plugin.instance, this.henta);
+					this.henta.hookManager.runOut(`plugin_${plugin.name}_${method}_end`);
 				} catch(e) {
 					plugin[method + "Error"] = e;
 					this.henta.error(`Ошибка в плагине ${chalk.white(plugin.name)} (${chalk.white(method)}):\n${e.stack}`);
