@@ -16,8 +16,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo 'no tests'"
+    "test": "echo 'no tests'",
+    "doc": "jsdoc -r src -d $D"
   },
-  "author": "",
+  "author": "Elektro-Volk",
   "license": "MIT"
 }

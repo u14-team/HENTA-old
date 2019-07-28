@@ -1,11 +1,19 @@
 const { VK: VKLibrary, Keyboard } = require('vk-io');
 
+/** Класс предоставляет фасад для vk-io */
 class VK {
+	/**
+    * Создает экземпляр VK.
+    *
+    * @constructor
+    * @param {Henta} henta Экземпляр движка.
+    */
 	constructor(henta) {
 		const { configManager } = henta;
 		this.henta = henta;
+		/** Класс клавиатуры VK-IO */
 		this.Keyboard = Keyboard;
-
+		/** Библиотека VK-IO */
 		this.vkLib = new VKLibrary({
 			token: configManager.getConfigPrivate()['vk_token'],
 			pollingGroupId: configManager.getConfig()['vk_groupid'],
@@ -17,10 +25,17 @@ class VK {
 			process.exit(1);
 		}); // Sample request
 
+		/** VK-IO API */
 		this.api = this.vkLib.api;
+		/** VK-IO UPLOAD */
 		this.upload = this.vkLib.upload;
 	}
 
+	/**
+     * Запустить LongPoll
+     *
+     * @private
+     */
 	runLongpoll() {
         const updates = this.vkLib.updates;
         const startPollingOriginal = updates.startPolling.bind(updates);

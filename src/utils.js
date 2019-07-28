@@ -1,3 +1,5 @@
+/* Я отказываюсь это комментировать */
+// Rewrite this.
 exports.typeOf = function (value) {
     return Array.isArray(value) ? "array" : typeof value;
 }

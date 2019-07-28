@@ -1,6 +1,13 @@
 const chalk = require('chalk');
 
+/** Класс предоставляет менеджер плагинов */
 class PluginManager {
+	/**
+    * Создает экземпляр PluginManager.
+    *
+    * @constructor
+    * @param {Henta} henta Экземпляр движка.
+    */
 	constructor(henta) {
 		this.henta = henta;
 
@@ -8,12 +15,23 @@ class PluginManager {
 		this.instances = {};
 	}
 
+	/**
+     * Загрузить плагины
+     *
+     * @private
+     */
 	loadPlugins() {
 		const pluginsToLoad = require(`${this.henta.botdir}/plugins.json`);
 		pluginsToLoad.map(p => p.path + '/' + p.name).forEach(pluginName => this.loadPlugin(pluginName));
 		this.henta.logger.log(`Загружено ${Object.keys(this.plugins).length} плагинов.`);
 	}
 
+	/**
+     * Загрузить плагин
+     *
+     * @private
+	 * @param {String} pluginName Имя плагина.
+     */
 	loadPlugin(pluginName) {
 		try {
 			const pluginClass = require(`${this.henta.botdir}/src/plugins/${pluginName}`);
@@ -29,6 +47,11 @@ class PluginManager {
 		}
 	}
 
+	/**
+     * Запустить плагины
+     *
+     * @private
+     */
 	async startPlugins() {
 		const pluginList = Object.values(this.plugins);
 		const timedFunction = (plugin, method) => {
@@ -61,6 +84,12 @@ class PluginManager {
 			this.henta.warning(`Не запустились: ${pluginList.filter(p => p.startError).map(p => p.name)}`);
 	}
 
+	/**
+     * Получить информацию о плагине
+     *
+     * @param {String} pluginName Имя плагина.
+	 * @return {Object} Информация о плагине.
+     */
 	getInfo(pluginName) {
 		if(!this.plugins[pluginName])
 			throw new Error(`Plugin "${chalk.white(pluginName)}" not found`)
@@ -68,6 +97,12 @@ class PluginManager {
 		return this.plugins[pluginName];
 	}
 
+	/**
+     * Получить экземпляр плагина
+     *
+     * @param {String} pluginName Имя плагина.
+	 * @return {PluginClass} Экземпляр плагина.
+     */
 	get(pluginName) {
 		return this.getInfo(pluginName).instance;
 	}
