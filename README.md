@@ -1,8 +1,8 @@
-<p align="center"><img src="https://raw.githubusercontent.com/elektro-volk/henta/master/logo.svg?sanitize=true"></p>
+<!-- <p align="center"><img src="https://raw.githubusercontent.com/elektro-volk/henta/master/logo.svg?sanitize=true"></p>-->
 <p align="center">
 <a href="https://www.npmjs.com/package/henta"><img alt="npm" src="https://img.shields.io/npm/v/henta"></a>
 <a href="https://www.npmjs.com/package/henta"><img alt="npm" src="https://img.shields.io/npm/dt/henta"></a>
-<a href="https://www.codacy.com/app/elektro-volk/henta"><img src="https://img.shields.io/codacy/grade/25ee36d46e6e498981a74f8b0653aacc.svg?style=flat-square" alt="Code quality"></a>
+<a href="https://www.codacy.com/gh/Elektro-Volk/HENTA?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Elektro-Volk/HENTA&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/3f5ecd50e5a94c0baf456858867f3b8b"/></a>
 </p>
 
 HENTA - Мощный, гибкий и многофункциональный [Node.js](https://nodejs.org) движок для создания ботов ВКонтакте.
