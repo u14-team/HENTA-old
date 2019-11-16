@@ -30,6 +30,7 @@ export default class Henta {
     this.log = message => this.logger.log(message);
     this.warning = message => this.logger.warning(message);
     this.error = message => this.logger.error(message);
+    this.info = message => this.logger.info(message);
 
     this.shutdownCallbacks = [];
 
@@ -38,6 +39,9 @@ export default class Henta {
 
   async startEngine() {
     try {
+      this.info(`Добро пожаловать в HENTA V${this.version}.`);
+      this.info(`Используется VK-IO ${this.vkIoVersion}.`);
+
       if (this.argv.service) {
         this.log('Сервисный режим.');
         return;
@@ -48,6 +52,7 @@ export default class Henta {
       await this.vk.runLongpoll();
 
       this.log('Бот запущен и готов к работе.');
+      this.plugins.service.checkUpdates();
     } catch (err) {
       this.error(err.stack);
       this.shutdown(-1);

@@ -5,7 +5,7 @@ export default class Logger {
     this.logFormat = chalk`{green [LOG]} `;
     this.warningFormat = chalk`{yellow [WRN]} - {yellow ⚠} `;
     this.errorFormat = chalk`{red [ERR]} - {red ❗} `;
-    this.startFormat = chalk`{blue [STR]} `;
+    this.infoFormat = chalk`{blue [INF]} `;
   }
 
   writeLine(str) {
@@ -22,5 +22,9 @@ export default class Logger {
 
   error(message) {
     this.writeLine(this.errorFormat + message);
+  }
+
+  info(message) {
+    this.writeLine(this.infoFormat + message);
   }
 }
