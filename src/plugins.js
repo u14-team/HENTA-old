@@ -1,14 +1,18 @@
 import EventEmitter from 'events';
+import { promises as fs } from 'fs';
+import PluginService from './pluginService';
 
 export default class PluginManager {
   instances = {};
-  plugins = {};
+  list = {};
 
   constructor(henta) {
     this.henta = henta;
 
     this.eventEmitter = new EventEmitter();
     this.on = this.eventEmitter.on.bind(this.eventEmitter);
+
+    this.service = new PluginService(this);
   }
 
   async loadPlugins() {
@@ -18,23 +22,24 @@ export default class PluginManager {
     const pluginsToLoad = await this.henta.util.loadSettings('plugins.json');
     await Promise.all(pluginsToLoad.map(v => this.loadPlugin(v)));
 
-    this.henta.log(`Плагины успешно загружены (${Object.keys(this.plugins).length} шт./${Date.now() - startAt} мс.).`);
+    this.henta.log(`Плагины успешно загружены (${Object.keys(this.list).length} шт./${Date.now() - startAt} мс.).`);
   }
 
-  async loadPlugin(pluginName) {
+  async loadPlugin(slug) {
     try {
-      const pluginModule = await import(`${this.henta.botdir}/src/plugins/${pluginName}`);
+      const pluginModule = await import(`${this.henta.botdir}/src/plugins/${slug}`);
       const PluginClass = pluginModule.default;
 
       const pluginData = {
-        name: pluginName,
-        instance: new PluginClass(this.henta)
+        instance: new PluginClass(this.henta),
+        meta: JSON.parse(await fs.readFile(`${this.henta.botdir}/src/plugins/${slug}/package.json`)),
+        slug
       };
 
-      this.plugins[pluginName] = pluginData;
-      this.instances[pluginName] = pluginData.instance;
+      this.list[slug] = pluginData;
+      this.instances[slug] = pluginData.instance;
     } catch (error) {
-      throw Error(`Ошибка в плагине ${pluginName}:\n${error.stack}`);
+      throw Error(`Ошибка в плагине ${slug}:\n${error.stack}`);
     }
   }
 
@@ -66,18 +71,19 @@ export default class PluginManager {
   }
 
   async startPlugins() {
-    const pluginList = Object.values(this.plugins);
+    const pluginList = Object.values(this.list);
     await this.doPluginsMethod(pluginList, 'preInit', 'Прединициализация');
     await this.doPluginsMethod(pluginList, 'init', 'Инициализация');
     await this.doPluginsMethod(pluginList, 'start', 'Запуск');
   }
 
-  getInfo(pluginName) {
-    if (!this.plugins[pluginName]) {
-      throw new Error(`Плагин "${pluginName}" не найден`);
+  getInfo(slug) {
+    const info = this.list[slug];
+    if (!info) {
+      throw new Error(`Не найден плагин: ${slug}.`);
     }
 
-    return this.plugins[pluginName];
+    return info;
   }
 
   get(slug) {
