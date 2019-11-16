@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import minimist from 'minimist';
 
 import Logger from './logger';
 import Cmdline from './cmdLine';
@@ -10,6 +11,7 @@ import Util from './util';
 
 export default class Henta {
   constructor() {
+    this.argv = minimist(process.argv.slice(2));
     this.botdir = path.resolve('.');
     this.version = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`)).version;
     this.vkIoVersion = JSON.parse(fs.readFileSync(`${__dirname}/../node_modules/vk-io/package.json`)).version;
