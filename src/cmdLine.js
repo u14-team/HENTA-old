@@ -15,18 +15,18 @@ export default class Cmdline {
   addDefaultCommands() {
     // Стандартные команды
     this.addCommand({
-      tag: 'help',
+      slug: 'help',
       description: 'вывести список команд',
       handler: () => {
         this.henta.logger.log('Список доступных команд:');
-        Object.values(this.commands).forEach(({ tag, usage, description }) => {
-          this.henta.log(`● ${tag}${usage ? ` ${usage}` : ''} - ${description}`);
+        Object.values(this.commands).forEach(({ slug, usage, description }) => {
+          this.henta.log(`● ${slug}${usage ? ` ${usage}` : ''} - ${description}`);
         });
       }
     });
 
     this.addCommand({
-      tag: 'exit',
+      slug: 'exit',
       description: 'закрыть HENTA',
       handler: () => {
         process.kill(process.pid, 'SIGINT');
@@ -53,12 +53,13 @@ export default class Cmdline {
     if (!command) {
       this.henta.logger.log(`Команда '${args[0]}' не найдена.`);
       this.henta.logger.log('Введите \'help\' для просмотра списка команд.');
+      return;
     }
 
     return command.handler(args);
   }
 
   addCommand(command) {
-    this.commands[command.tag] = command;
+    this.commands[command.slug] = command;
   }
 }
