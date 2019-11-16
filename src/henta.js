@@ -38,8 +38,10 @@ export default class Henta {
 
   async startEngine() {
     try {
-      this.logger.writeLine(`${this.logger.startFormat}Добро пожаловать в HENTA V${this.version}.`);
-      this.logger.writeLine(`${this.logger.startFormat}Используется VK-IO ${this.vkIoVersion}.`);
+      if (this.argv.service) {
+        this.log('Сервисный режим.');
+        return;
+      }
 
       await this.plugins.loadPlugins();
       await this.plugins.startPlugins();
