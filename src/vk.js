@@ -21,16 +21,12 @@ export default class VK extends VKLibrary {
   }
 
   async runLongpoll() {
-    try {
-      if (this.henta.config.public.vk.useWebhook) {
-        this.henta.log('Запускаю Webhook...');
-        this.updates.startWebhook(this.henta.config.public.vk.webhookOptions || {});
-      } else {
-        this.henta.log('Запускаю Longpoll...');
-        this.updates.startPolling();
-      }
-    } catch (err) {
-      throw Error(`Вы неправильно указали ID группы в config.json (${err.message})`);
+    if (this.henta.config.public.vk.useWebhook) {
+      this.henta.log('Запускаю Webhook...');
+      await this.updates.startWebhook(this.henta.config.public.vk.webhookOptions || {});
+    } else {
+      this.henta.log('Запускаю Longpoll...');
+      await this.updates.startPolling();
     }
   }
 }
