@@ -1,61 +1,36 @@
-const { VK: VKLibrary, Keyboard } = require('vk-io');
+import { VK as VKLibrary } from 'vk-io';
+// import nanoexpress from 'nanoexpress'
 
-/** Класс предоставляет фасад для vk-io */
-class VK {
-	/**
-    * Создает экземпляр VK.
-    *
-    * @constructor
-    * @param {Henta} henta Экземпляр движка.
-    */
-	constructor(henta) {
-		const { configManager } = henta;
-		this.henta = henta;
-		/** Класс клавиатуры VK-IO */
-		this.Keyboard = Keyboard;
-		/** Библиотека VK-IO */
-		this.vkLib = new VKLibrary({
-			token: configManager.getConfigPrivate()['vk_token'],
-			pollingGroupId: configManager.getConfig()['vk_groupid'],
-		});
+export default class VK extends VKLibrary {
+  constructor(henta) {
+    super({
+      pollingGroupId: henta.config.public.vk.groupId,
+      token: henta.config.private.vk.token,
+      webhookConfirmation: henta.config.private.vk.webhookConfirmation,
+      apiLimit: henta.config.public.vk.apiLimit || 20
+    });
+    this.henta = henta;
 
-		// Check vk_token
-		this.vkLib.api.messages.getConversations({ count: 0 }).catch((e) => {
-			henta.error(`Вы неправильно указали токен группы в config_private.json (${e.message})`);
-			process.exit(1);
-		}); // Sample request
+    this.checkToken();
+  }
 
-		/** VK-IO API */
-		this.api = this.vkLib.api;
-		/** VK-IO UPLOAD */
-		this.upload = this.vkLib.upload;
-	}
+  checkToken() {
+    this.api.messages.getConversations({ count: 0 }).catch(err => {
+      throw Error(`Вы неправильно указали токен группы в private.json (${err.message})`);
+    });
+  }
 
-	/**
-     * Запустить LongPoll
-     *
-     * @private
-     */
-	runLongpoll() {
-        const updates = this.vkLib.updates;
-        const startPollingOriginal = updates.startPolling.bind(updates);
-
-        updates.startPolling = async () => {
-            await startPollingOriginal();
-            updates.pollingHandler = (update) => {
-                this.henta.hookManager.run(`vk_${update.type}`, update.object)
-					.catch(this.henta.error.bind(this.henta));
-        	}
-		}
-
-        updates.startPolling()
-			.then(() => this.henta.log("Longpoll клиент успешно запущен."))
-			.catch((e) => {
-				this.henta.error(`У текущего токена нет доступа к группе (${e.message})`);
-				this.henta.error(`Укажите правильный токен в config.json`);
-				process.exit(1);
-			});
+  async runLongpoll() {
+    try {
+      if (this.henta.config.public.vk.useWebhook) {
+        this.henta.log('Запускаю Webhook...');
+        this.updates.startWebhook(this.henta.config.public.vk.webhookOptions || {});
+      } else {
+        this.henta.log('Запускаю Longpoll...');
+        this.updates.startPolling();
+      }
+    } catch (err) {
+      throw Error(`Вы неправильно указали ID группы в config.json (${err.message})`);
     }
+  }
 }
-
-module.exports = { VK };

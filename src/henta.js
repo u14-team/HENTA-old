@@ -1,56 +1,63 @@
-const path = require("path");
+import path from 'path';
+import fs from 'fs';
 
-const { Logger } = require("./logger");
-const { Cmdline } = require("./cmdline");
-const { ConfigManager } = require("./configManager");
-const { PluginManager } = require("./pluginManager");
-const { HookManager } = require("./hookManager");
-const { VK } = require("./vk");
+import Logger from './logger';
+import Cmdline from './cmdLine';
+import Plugins from './plugins';
+import Config from './config';
+import VK from './vk';
+import Util from './util';
 
-const utils = require("./utils");
+export default class Henta {
+  constructor() {
+    this.botdir = path.resolve('.');
+    this.version = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`)).version;
+    this.vkIoVersion = JSON.parse(fs.readFileSync(`${__dirname}/../node_modules/vk-io/package.json`)).version;
 
-/** Движок для создания бота */
-class Henta {
-    /**
-    * Создает экземпляр Henta.
-    *
-    * @constructor
-    */
-    constructor() {
-        /** Директория с ботом */
-        this.botdir = path.resolve(".");
-        /** Версия движка */
-        this.version = require('../package.json').version;
+    // Init subsystems
+    this.config = new Config(this);
+    this.logger = new Logger(this);
+    this.cmdline = new Cmdline(this);
+    this.plugins = new Plugins(this);
+    this.vk = new VK(this);
+    this.util = new Util(this);
 
-        // Init subsystems
-		/** @public */ this.logger = new Logger(this);
-		/** @public */ this.cmdline = new Cmdline(this);
-		/** @public */ this.configManager = new ConfigManager(this);
-		/** @public */ this.pluginManager = new PluginManager(this);
-		/** @public */ this.hookManager = new HookManager(this);
-		/** @public */ this.utils = utils;
-		/** @public */ this.vk = new VK(this);
+    // Sugar
+    this.groupId = this.config.public.vk.groupId;
+    this.getPlugin = pluginName => this.plugins.get(pluginName);
+    this.log = message => this.logger.log(message);
+    this.warning = message => this.logger.warning(message);
+    this.error = message => this.logger.error(message);
 
-        // Sugar
-        /** pluginManager.get(pluginName) */ this.getPlugin = (pluginName) => this.pluginManager.get(pluginName);
-        /** logger.log(message) */ this.log = (message) => this.logger.log(message);
-        /** logger.warning(message) */ this.warning = (message) => this.logger.warning(message);
-        /** logger.error(message) */ this.error = (message) => this.logger.error(message);
-        /** configManager.getConfig()[field] */ this.getConfigValue = (field) => this.configManager.getConfig()[field];
-        /** configManager.getConfigPrivate()[field] */ this.getConfigPrivateValue = (field) => this.configManager.getConfigPrivate()[field];
+    this.shutdownCallbacks = [];
+
+    process.on('SIGINT', () => this.shutdown());
+  }
+
+  async startEngine() {
+    try {
+      this.logger.writeLine(`${this.logger.startFormat}Добро пожаловать в HENTA V${this.version}.`);
+      this.logger.writeLine(`${this.logger.startFormat}Используется VK-IO ${this.vkIoVersion}.`);
+
+      await this.plugins.loadPlugins();
+      await this.plugins.startPlugins();
+      await this.vk.runLongpoll();
+
+      this.log('Бот запущен и готов к работе.');
+    } catch (err) {
+      this.error(err.stack);
+      this.shutdown(-1);
     }
+  }
 
-    /**
-     * Запустить движок
-     *
-     * @this HENTA
-     */
-    async startEngine() {
-        this.logger.log(`HENTA ${this.version} (by Электро Волк 2019).`);
-        this.pluginManager.loadPlugins();
-        await this.pluginManager.startPlugins();
-        this.vk.runLongpoll();
-    }
+  async shutdown(code = 1) {
+    this.log('Завершение работы HENTA...');
+    await Promise.all(this.shutdownCallbacks.map(v => v()));
+    this.log('Выход.');
+    process.exit(code);
+  }
+
+  onShutdown(cb) {
+    this.shutdownCallbacks.push(cb);
+  }
 }
-
-module.exports = { Henta };
