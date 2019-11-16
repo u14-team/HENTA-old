@@ -1,21 +1,14 @@
-import * as fs from 'fs'
+import fs from 'fs-extra';
 
 export default class Util {
-  constructor (henta) {
+  constructor(henta) {
     Object.assign(this, {
       henta
-    })
+    });
   }
 
-  loadSettings (path) {
-    return new Promise((resolve, reject) =>
-      fs.readFile(`${this.henta.botdir}/settings/${path}`, 'utf8', (err, data) => {
-        if (err) {
-          reject(err)
-        }
-
-        resolve(JSON.parse(data))
-      })
-    )
+  async loadSettings(path) {
+    const data = await fs.readFile(`${this.henta.botdir}/settings/${path}`);
+    return JSON.parse(data);
   }
 }
