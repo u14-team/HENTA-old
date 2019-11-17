@@ -1309,10 +1309,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vk-io@^4.0.0-rc.26:
-  version "4.0.0-rc.26"
-  resolved "https://registry.yarnpkg.com/vk-io/-/vk-io-4.0.0-rc.26.tgz#1ba002caa6ae9ab360c8dd5b5815e0fca6d2c722"
-  integrity sha512-Hs9dad865M0lwzrRLqPyGk+YkLrnZ1muZfnr3TgBjQpuMbphsLIWPCMzou7sDcLGz6KY6a/7ZDJGnRJC9s6eRg==
+vk-io@^4.0.0-rc.28:
+  version "4.0.0-rc.28"
+  resolved "https://registry.yarnpkg.com/vk-io/-/vk-io-4.0.0-rc.28.tgz#c0e34f6a070eafb49b5142b7fb9b7b56585c21de"
+  integrity sha512-VICy3zGhgV0L+2akwjJHrU05AXyraEl7p+sK/ZONN5srUb/N9tq1HABZC1lcBwbfIn+pYbZhK7LDPbpZTBRGfQ==
   dependencies:
     debug "^4.1.1"
     middleware-io "^2.1.0"
