@@ -1,4 +1,4 @@
-<!-- <p align="center"><img src="https://raw.githubusercontent.com/elektro-volk/henta/master/logo.svg?sanitize=true"></p>-->
+<p align="center"><img src="https://raw.githubusercontent.com/elektro-volk/henta/master/logo.svg?sanitize=true"></p>
 <p align="center">
 <a href="https://www.npmjs.com/package/henta"><img alt="npm" src="https://img.shields.io/npm/v/henta"></a>
 <a href="https://www.npmjs.com/package/henta"><img alt="npm" src="https://img.shields.io/npm/dt/henta"></a>
