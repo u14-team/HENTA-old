@@ -39,10 +39,26 @@ export default class PluginService {
         this.installPlugin(remote);
       }
     });
+
+    cmdline.addCommand({
+      slug: 'p-delete',
+      description: 'удалить плагин',
+      usage: '<slug>',
+      // eslint-disable-next-line no-unused-vars
+      handler: async ([_, slug]) => {
+        this.matchSlug(slug);
+        if (!await cmdline.questionYN(`Удалить плагин '${slug}'`)) {
+          this.henta.log('Отменено.');
+          return;
+        }
+
+        this.deinstallPlugin(slug);
+      }
+    });
   }
 
   matchSlug(slug) {
-    if (!slug.match(/^\w+\/\w+$/)) {
+    if (!slug || !slug.match(/^\w+\/\w+$/)) {
       throw Error('Slug невалиден.');
     }
 
