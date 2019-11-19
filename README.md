@@ -14,9 +14,8 @@ HENTA - Мощный, гибкий и многофункциональный [No
 - Встроенный [VK-IO](https://www.npmjs.com/package/vk-io)
 
 ## Установка
-> **[Node.js](https://nodejs.org/) 8.0.0 or newer is required**  
-
-К сожалению на данный момент автоматическое создание бота не готово для текущей версии. Свяжитесь с [разработчиком](https://vk.com/theevolk).
+Попробовать HENTA можно с помощью сборок бота:
+* [Henta Minimal Sample](https://github.com/elektro-volk/henta-minimal-sample) - минимальный набор вашего бота.
 
 ## Сообщество
 ### Мы предлагаем вам присоединиться к команде разработчиков ботов
