@@ -14,7 +14,6 @@ export default class Henta {
     this.argv = minimist(process.argv.slice(2));
     this.botdir = path.resolve('.');
     this.version = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`)).version;
-    this.vkIoVersion = JSON.parse(fs.readFileSync(`${__dirname}/../node_modules/vk-io/package.json`)).version;
 
     // Init subsystems
     this.config = new Config(this);
@@ -40,8 +39,6 @@ export default class Henta {
   async startEngine() {
     try {
       this.info(`Добро пожаловать в HENTA V${this.version}.`);
-      this.info(`Используется VK-IO ${this.vkIoVersion}.`);
-
       if (this.argv.service) {
         this.log('Сервисный режим.');
         return;
