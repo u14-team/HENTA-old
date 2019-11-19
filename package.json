@@ -1,6 +1,6 @@
 {
   "name": "henta",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "engine for creating VKontakte bots",
   "main": "src/henta.js",
   "type": "module",
