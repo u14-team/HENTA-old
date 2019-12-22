@@ -2,13 +2,20 @@ import fs from 'fs-extra';
 
 export default class Util {
   constructor(henta) {
-    Object.assign(this, {
-      henta
-    });
+    this.henta = henta;
   }
 
   async loadSettings(path) {
     const data = await fs.readFile(`${this.henta.botdir}/settings/${path}`);
     return JSON.parse(data);
+  }
+
+  async pickRandom(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
+  chunk(array, chunkSize) {
+    return Array.range(Math.ceil(array.length / chunkSize))
+      .map((x, i) => array.slice(i * chunkSize, i * chunkSize + chunkSize));
   }
 }
