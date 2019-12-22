@@ -1,5 +1,4 @@
 import { VK as VKLibrary } from 'vk-io';
-// import nanoexpress from 'nanoexpress'
 
 export default class VK extends VKLibrary {
   constructor(henta) {
