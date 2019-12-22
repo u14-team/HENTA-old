@@ -5,23 +5,20 @@
   "main": "src/henta.js",
   "type": "module",
   "dependencies": {
-    "babel-eslint": "^10.0.3",
     "chalk": "^2.4.2",
-    "fs-extra": "^8.1.0",
     "minimist": "^1.2.0",
-    "moment": "^2.24.0",
     "node-fetch": "^2.6.0",
     "readline": "^1.3.0",
     "vk-io": "^4.0.0-rc.28"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
     "eslint": "6.1.0",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-import": "^2.18.2"
   },
   "scripts": {
-    "test": "echo 'no tests'",
-    "doc": "jsdoc -r src -d $D"
+    "test": "echo 'no tests'"
   },
   "author": "Elektro-Volk",
   "license": "MIT"
