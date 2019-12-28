@@ -117,7 +117,8 @@ export default class PluginService {
     await fs.rmdir(`${this.henta.botdir}/src/plugins/${slug}`, { recursive: true });
   }
 
-  async getRemoteData(remote) {
+  async getRemoteData(rawRemote) {
+    const remote = rawRemote.includes('/') ? rawRemote : `standardhentaplugins/${rawRemote}`;
     const result = await fetch(`https://raw.githubusercontent.com/${remote}/master/package.json`);
     try {
       const data = await result.json();
@@ -128,7 +129,8 @@ export default class PluginService {
     }
   }
 
-  async installPlugin(remote) {
+  async installPlugin(rawRemote) {
+    const remote = rawRemote.includes('/') ? rawRemote : `standardhentaplugins/${rawRemote}`;
     const pluginData = await this.getRemoteData(remote);
     const subdir = pluginData.slug.split('/')[0];
 
