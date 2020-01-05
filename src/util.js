@@ -10,7 +10,7 @@ export default class Util {
     return JSON.parse(data);
   }
 
-  async pickRandom(array) {
+  pickRandom(array) {
     return array[Math.floor(Math.random() * array.length)];
   }
 
