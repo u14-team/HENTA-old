@@ -6,7 +6,9 @@ export default class Util {
   }
 
   async loadSettings(path) {
-    const data = await fs.readFile(`${this.henta.botdir}/settings/${path}`);
+    // TODO: windows
+    const fullPath = path.startsWith('/') ? path : `${this.henta.botdir}/settings/${path}`;
+    const data = await fs.readFile(fullPath);
     return JSON.parse(data);
   }
 
