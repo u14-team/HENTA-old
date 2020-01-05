@@ -16,6 +16,12 @@ export default class Util {
     return array[Math.floor(Math.random() * array.length)];
   }
 
+  createFromSlug(array) {
+    return Object.fromEntries(
+      array.map(v => [v.slug, v])
+    );
+  }
+
   chunk(array, chunkSize) {
     return Array.range(Math.ceil(array.length / chunkSize))
       .map((x, i) => array.slice(i * chunkSize, i * chunkSize + chunkSize));
