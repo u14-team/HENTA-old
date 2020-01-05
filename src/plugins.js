@@ -25,8 +25,21 @@ export default class PluginManager {
     this.henta.log(`Плагины успешно загружены (${Object.keys(this.list).length} шт./${Date.now() - startAt} мс.).`);
   }
 
+  // Autoinstall 
+  async checkPlugin(slug) {
+    try {
+      await fs.access(`${this.henta.botdir}/src/plugins/${slug}`);
+      // Ok, plugin is exists
+    } catch (err) {
+      // Plugin not found, find in repo and install
+      this.henta.log(`Плагин '${slug}' не найден, попытка установить из SHP.`);
+      await this.service.installPlugin(slug.split('/')[1]);
+    }
+  }
+
   async loadPlugin(slug) {
     try {
+      await this.checkPlugin(slug);
       const pluginModule = await import(`${this.henta.botdir}/src/plugins/${slug}`);
       const PluginClass = pluginModule.default;
 
