@@ -13,7 +13,7 @@ export default class Logger {
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
     process.stdout.write(`${str}\n`);
-    this.henta.cmdLine.rl.prompt(true);
+    this.henta.cmdline.rl.prompt(true);
   }
 
   log(message) {
