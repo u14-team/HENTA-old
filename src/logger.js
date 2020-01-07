@@ -1,7 +1,8 @@
 import chalk from 'chalk';
 
 export default class Logger {
-  constructor() {
+  constructor(henta) {
+    this.henta = henta;
     this.logFormat = chalk`{green [LOG]} `;
     this.warningFormat = chalk`{yellow [WRN]} - {yellow ⚠} `;
     this.errorFormat = chalk`{red [ERR]} - {red ❗} `;
@@ -9,7 +10,10 @@ export default class Logger {
   }
 
   writeLine(str) {
+    process.stdout.clearLine();
+    process.stdout.cursorTo(0);
     process.stdout.write(`${str}\n`);
+    this.henta.cmdLine.rl.prompt(true);
   }
 
   log(message) {
