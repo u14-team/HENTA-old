@@ -31,6 +31,8 @@ export default class Henta {
     this.error = message => this.logger.error(message);
     this.info = message => this.logger.info(message);
 
+    this.restart = () => this.henta.log(`Перезагрузите бота, чтобы изменения вступили в силу.`);
+
     this.shutdownCallbacks = [];
 
     process.on('SIGINT', () => this.shutdown());
@@ -65,5 +67,12 @@ export default class Henta {
 
   onShutdown(cb) {
     this.shutdownCallbacks.push(cb);
+  }
+
+  setRestart(restartFunc) {
+    this.restart = () => {
+      this.log('Перезагрузка...');
+      restartFunc();
+    };
   }
 }
