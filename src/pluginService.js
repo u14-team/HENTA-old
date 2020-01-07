@@ -55,6 +55,32 @@ export default class PluginService {
         this.deinstallPlugin(slug);
       }
     });
+
+    cmdline.addCommand({
+      slug: 'p-init',
+      description: 'создать плагин',
+      usage: '<slug>',
+      // eslint-disable-next-line no-unused-vars
+      handler: async ([_, slug]) => {
+        this.initPlugin(slug);
+      }
+    });
+
+    cmdline.addCommand({
+      slug: 'p-enable',
+      description: 'включить плагин',
+      usage: '<slug>',
+      // eslint-disable-next-line no-unused-vars
+      handler: async ([_, slug]) => this.enablePlugin(slug)
+    });
+
+    cmdline.addCommand({
+      slug: 'p-disable',
+      description: 'выключить плагин',
+      usage: '<slug>',
+      // eslint-disable-next-line no-unused-vars
+      handler: async ([_, slug]) => this.disablePlugin(slug)
+    });
   }
 
   matchSlug(slug) {
@@ -134,11 +160,7 @@ export default class PluginService {
     const pluginData = await this.getRemoteData(remote);
     const subdir = pluginData.slug.split('/')[0];
 
-    try {
-      await fs.mkdir(`${this.henta.botdir}/src/plugins/${subdir}`);
-    } catch (e) {
-      // ...
-    }
+    await fs.mkdir(`${this.henta.botdir}/src/plugins/${subdir}`, { recursive: true });
 
     try {
       await fs.access(`${this.henta.botdir}/src/plugins/${pluginData.slug}`);
@@ -152,5 +174,69 @@ export default class PluginService {
 
     this.henta.log(`Плагин '${pluginData.slug}' установлен из репозитория '${remote}'.`);
     this.henta.log(`Версия плагина: ${pluginData.version}.`);
+  }
+
+  async initPlugin(slug) {
+    this.matchSlug(slug);
+    await fs.mkdir(`${this.henta.botdir}/src/plugins/${slug}/src`, { recursive: true });
+
+    const pluginName = slug.split('/')[1];
+    const className = pluginName.charAt(0).toUpperCase() + pluginName.slice(1);
+    await fs.writeFile(`${this.henta.botdir}/src/plugins/${slug}/package.json`, JSON.stringify({
+      main: 'src/index.js',
+      type: 'module',
+      version: '0.1.0'
+    }, null, '\t'));
+
+    await fs.writeFile(
+      `${this.henta.botdir}/src/plugins/${slug}/src/index.js`,
+      `export default class ${className}Plugin {
+  constructor(henta) {
+    this.henta = henta;
+  }
+
+  init(henta) {
+    // Initialization...
+  }
+
+  start(henta) {
+    // Do some...
+  }
+}
+`);
+
+    this.henta.log(`Плагин ${slug} успешно создан.`);
+  }
+
+  async enablePlugin(slug) {
+    this.matchSlug(slug);
+
+    const pluginList = await this.henta.util.loadSettings('plugins.json');
+    if (pluginList.includes(slug)) {
+      this.henta.warning(`Плагин ${slug} уже включен.`);
+      return;
+    }
+
+    pluginList.push(slug);
+    await fs.writeFile(`${this.henta.botdir}/settings/plugins.json`, JSON.stringify(pluginList, null, '\t'));
+
+    this.henta.log(`Плагин ${slug} успешно включен.`);
+    this.henta.log(`Перезагрузите бота, чтобы изменения вступили в силу.`);
+  }
+
+  async disablePlugin(slug) {
+    this.matchSlug(slug);
+
+    const pluginList = await this.henta.util.loadSettings('plugins.json');
+    if (!pluginList.includes(slug)) {
+      this.henta.warning(`Плагин ${slug} уже выключен.`);
+      return;
+    }
+
+    pluginList.splice(pluginList.indexOf(slug), 1);
+    await fs.writeFile(`${this.henta.botdir}/settings/plugins.json`, JSON.stringify(pluginList, null, '\t'));
+
+    this.henta.log(`Плагин ${slug} успешно выключен.`);
+    this.henta.log(`Перезагрузите бота, чтобы изменения вступили в силу.`);
   }
 }
