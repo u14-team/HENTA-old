@@ -1,7 +1,7 @@
 import Henta from './index';
 
 export default class Util {
-  heta: Henta;
+  henta: Henta;
 
   /**
   * Loads a json file from the settings folder
@@ -11,11 +11,18 @@ export default class Util {
   loadSettings(path: String): Promise<any>;
 
   /**
-  * Gets a random element from the array
-  * @param {Array<any>} array array from which to get the element
+  * Gets a random element from array
+  * @param {Array<any>} array array from which to get element
   * @return {any} random element
   */
   pickRandom(array: Array<any>): any;
+
+  /**
+  * Gets a random index from array
+  * @param {Array<any>} array array from which to get element index
+  * @return {Number} random index
+  */
+ pickRandomIndex(array: Array<any>): Number;
 
   /**
   * Creates an object where the keys belong to the slug values from the passed table.
