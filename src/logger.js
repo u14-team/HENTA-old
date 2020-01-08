@@ -10,10 +10,14 @@ export default class Logger {
   }
 
   writeLine(str) {
-    process.stdout.clearLine();
-    process.stdout.cursorTo(0);
-    process.stdout.write(`${str}\n`);
-    this.henta.cmdline.rl.prompt(true);
+    if (process.stdout.clearLine) {
+      process.stdout.clearLine();
+      process.stdout.cursorTo(0);
+      process.stdout.write(`${str}\n`);
+      this.henta.cmdline.rl.prompt(true);
+    } else {
+      process.stdout.write(`${str}\n`);
+    }
   }
 
   log(message) {
