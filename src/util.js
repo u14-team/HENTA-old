@@ -1,6 +1,24 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
+Array.range = function(start, edge, step) {
+  // If only one number was passed in make it the edge and 0 the start.
+  if (arguments.length == 1) {
+    edge = start;
+    start = 0;
+  }
+ 
+  // Validate the edge and step numbers.
+  edge = edge || 0;
+  step = step || 1;
+ 
+  // Create the array of numbers, stopping befor the edge.
+  for (var ret = []; (edge - start) * step > 0; start += step) {
+    ret.push(start);
+  }
+  return ret;
+}
+
 export default class Util {
   constructor(henta) {
     this.henta = henta;
@@ -20,6 +38,10 @@ export default class Util {
   async loadEnts(entsPath) {
     const data = await this.loadSettings(entsPath);
     return [data, this.createFromSlug(data)];
+  }
+  
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   pickRandom(array) {

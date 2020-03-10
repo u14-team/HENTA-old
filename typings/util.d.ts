@@ -11,6 +11,13 @@ export default class Util {
   loadSettings(path: String): Promise<any>;
 
   /**
+  * Stops the function for a while
+  * @param {Number} ms time in milliseconds
+  * @return {Promise}
+  */
+ sleep(ms: Number): Promise;
+
+  /**
   * Gets a random element from array
   * @param {Array<any>} array array from which to get element
   * @return {any} random element

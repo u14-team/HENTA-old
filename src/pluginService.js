@@ -190,15 +190,20 @@ export default class PluginService {
 
     await fs.writeFile(
       `${this.henta.botdir}/src/plugins/${slug}/src/index.js`,
-      `export default class ${className}Plugin {
+      `import Henta from 'henta';
+      
+export default class ${className}Plugin {
+  /** @param {Henta} henta */
   constructor(henta) {
     this.henta = henta;
   }
 
+  /** @param {Henta} henta */
   init(henta) {
     // Initialization...
   }
 
+  /** @param {Henta} henta */
   start(henta) {
     // Do some...
   }
