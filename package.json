@@ -1,0 +1,24 @@
+{
+  "name": "henta",
+  "version": "3.0.0-pre3",
+  "description": "VK bots engine",
+  "main": "lib/index.js",
+  "author": "u14",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+
+    "dev": "yarn build && cd ../henta-minimal-sample && yarn build && yarn start",
+    "start": "node .",
+    "build": "tsc --project tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.0"
+  },
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "emittery": "^0.6.0",
+    "minimist": "^1.2.3",
+    "vk-io": "^4.0.0-rc.30"
+  }
+}
