@@ -3,7 +3,7 @@
   "version": "3.0.0-pre3",
   "description": "VK bots engine",
   "main": "lib/index.js",
-  "author": "u14",
+  "author": "theevolk",
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
