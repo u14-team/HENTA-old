@@ -1,6 +1,6 @@
 {
   "name": "henta",
-  "version": "3.0.0-pre3.0",
+  "version": "3.0.0",
   "description": "VK bots engine",
   "main": "lib/index.js",
   "author": "theevolk",
