@@ -13,6 +13,7 @@ export default class VK extends VKLibrary {
     this.setOptions({
       pollingGroupId: this.henta.config.public.vk.groupId,
       token: this.henta.config.private.vk.token,
+      webhookSecret: this.henta.config.private.vk.webhookSecret,
       webhookConfirmation: this.henta.config.private.vk.webhookConfirmation,
       apiLimit: this.henta.config.public.vk.apiLimit || 20
     });

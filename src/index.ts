@@ -6,6 +6,7 @@ import Logger from './logger';
 import Util from './util';
 import Cmd from './cmd';
 import PluginManager from './pluginManager';
+import PluginService from './pluginsService';
 import VK from './vk';
 
 export default class Henta {
@@ -15,6 +16,7 @@ export default class Henta {
   util = new Util(this);
   cmd = new Cmd(this);
   pluginManager = new PluginManager(this);
+  pluginsService = new PluginService(this);
   vk = new VK(this);
 
   argv = minimist(process.argv.slice(2));
@@ -43,6 +45,7 @@ export default class Henta {
 
       await this.config.init();
       await this.vk.init();
+      await this.pluginsService.init();
       await this.pluginManager.loadPlugins();
       await this.pluginManager.initPlugins();
       process.on('SIGINT', () => this.shutdown());

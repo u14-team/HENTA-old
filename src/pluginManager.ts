@@ -21,7 +21,7 @@ export default class PluginManager {
   }
 
   async loadPlugin(pluginSlug: string) {
-    const pluginPath = pluginSlug.startsWith('@henta') ? pluginSlug : `${this.henta.botdir}/src/plugins/${pluginSlug}`;
+    const pluginPath = `${this.henta.botdir}/src/plugins/${pluginSlug}`;
     const { default: PluginClass } = await import(pluginPath);
     const pluginInfo = {
       slug: pluginSlug,
