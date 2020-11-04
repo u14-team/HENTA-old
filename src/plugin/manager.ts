@@ -39,16 +39,16 @@ export default class PluginManager {
       const pluginPath = `${this.henta.botdir}/src/plugins/${pluginSlug}`;
       const packageJson = await this.henta.util.load(`${pluginPath}/package.json`);
 
-      // Check building
-      if (packageJson.scripts && packageJson.scripts.build && !await fs.access(`${pluginPath}/lib`).then(() => true).catch(() => false)) {
-        this.henta.warning(`${pluginSlug} not builded. Building...`);
-        execSync(`cd src/plugins/${pluginSlug} && yarn build`, {stdio: 'inherit'});
-      }
-
       // Check installed deps
       if (packageJson.dependencies && !await fs.access(`${pluginPath}/node_modules`).then(() => true).catch(() => false)) {
         this.henta.warning(`${pluginSlug} not installed dependencies. Installing...`);
         execSync(`cd src/plugins/${pluginSlug} && yarn`, {stdio: 'inherit'});
+      }
+
+      // Check building
+      if (packageJson.scripts && packageJson.scripts.build && !await fs.access(`${pluginPath}/lib`).then(() => true).catch(() => false)) {
+        this.henta.warning(`${pluginSlug} not builded. Building...`);
+        execSync(`cd src/plugins/${pluginSlug} && yarn build`, {stdio: 'inherit'});
       }
 
       const { default: rawPluginClass } = await import(`file:///${pluginPath}/${packageJson.main}`);
