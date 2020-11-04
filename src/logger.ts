@@ -1,5 +1,5 @@
-import * as chalk from 'chalk';
-import Henta from './index';
+import chalk from 'chalk';
+import {Henta} from './index';
 
 export default class Logger {
   henta: Henta;

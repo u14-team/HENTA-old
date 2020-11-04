@@ -1,6 +1,7 @@
-import Henta from './index';
+import { Henta } from './index';
 import { promises as fs } from 'fs';
 import * as path from 'path';
+import fetch from 'node-fetch';
 
 export default class Util {
   henta: Henta;
@@ -54,5 +55,11 @@ export default class Util {
   chunk(array, chunkSize) {
     return new Array(Math.ceil(array.length / chunkSize)).fill(0)
       .map((x, i) => array.slice(i * chunkSize, i * chunkSize + chunkSize));
+  }
+
+  downloadFile(url, outputPath) {
+    return fetch(url)
+      .then(x => x.arrayBuffer())
+      .then(x => fs.writeFile(outputPath, Buffer.from(x)));
   }
 }

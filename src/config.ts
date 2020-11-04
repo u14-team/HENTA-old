@@ -1,4 +1,4 @@
-import Henta from './index';
+import {Henta} from './index';
 
 export default class Config {
   henta: Henta;

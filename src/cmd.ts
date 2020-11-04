@@ -1,5 +1,5 @@
 import * as readline from 'readline';
-import Henta from './index';
+import {Henta} from './index';
 
 export default class Cmd {
   commands = {};

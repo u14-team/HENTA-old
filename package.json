@@ -1,11 +1,11 @@
 {
   "name": "henta",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "VK bots engine",
   "main": "lib/index.js",
   "author": "theevolk",
   "license": "MIT",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "yarn build && cd ../henta-minimal-sample && yarn build && yarn start",
     "start": "node .",
@@ -15,9 +15,10 @@
     "@types/node": "^13.9.0"
   },
   "dependencies": {
-    "chalk": "^3.0.0",
+    "adm-zip": "^0.4.16",
+    "chalk": "^4.1.0",
     "emittery": "^0.6.0",
-    "minimist": "^1.2.3",
-    "vk-io": "^4.0.0-rc.30"
+    "minimist": "^1.2.5",
+    "vk-io": "^4.0.3"
   }
 }

@@ -5,7 +5,8 @@
       "target": "es2019",
       "moduleResolution": "Node",
       "skipLibCheck": true,
-      "module": "commonjs"
+      "module": "esnext",
+      "esModuleInterop": true
   },
   "filesGlob": [
 		"src/*.ts"

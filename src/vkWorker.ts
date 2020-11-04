@@ -1,16 +1,21 @@
-import { VK as VKLibrary } from 'vk-io';
-import Henta from './index';
+import * as VKLib from 'vk-io';
+import { Henta } from './index';
 
-export default class VK extends VKLibrary {
+// Top JS :)
+const { VK } = VKLib['default'];
+
+export class VKWorker {
   henta: Henta;
+  api: any;
+  updates: any;
+  VKLib: typeof VKLib;
 
   constructor(henta: Henta) {
-    super();
     this.henta = henta;
   }
 
   init() {
-    this.setOptions({
+    const vk = new VK({
       pollingGroupId: this.henta.config.public.vk.groupId,
       token: this.henta.config.private.vk.token,
       webhookSecret: this.henta.config.private.vk.webhookSecret,
@@ -18,23 +23,26 @@ export default class VK extends VKLibrary {
       apiLimit: this.henta.config.public.vk.apiLimit || 20
     });
 
-    this.checkToken();
+    this.checkToken(vk);
     this.henta.groupId = this.henta.config.public.vk.groupId;
+    this.VKLib = VKLib;
+  
+    return vk;
   }
 
-  checkToken() {
-    this.api.messages.getConversations({ count: 0 }).catch(err => {
+  checkToken(vk) {
+    vk.api.messages.getConversations({ count: 0 }).catch(err => {
       throw Error(`Вы неправильно указали токен группы в private.json (${err.message})`);
     });
   }
 
-  async runLongpoll() {
+  async start() {
     if (this.henta.config.public.vk.useWebhook) {
       this.henta.log('Запускаю Webhook...');
-      await this.updates.startWebhook(this.henta.config.public.vk.webhookOptions || {});
+      await this.henta.vk.updates.startWebhook(this.henta.config.public.vk.webhookOptions || {});
     } else {
       this.henta.log('Запускаю Longpoll...');
-      await this.updates.startPolling();
+      await this.henta.vk.updates.startPolling();
     }
   }
 }
