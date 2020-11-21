@@ -71,6 +71,7 @@ export class Henta {
       });
 
       this.log('The bot is up and running.');
+      this.pluginService.start();
     } catch (error) {
       this.error(`Bot start: ${error.stack}`);
       this.shutdown(1);

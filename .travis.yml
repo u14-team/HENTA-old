@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - '12'
+script:
+  - npm i -g typescript typings
+  - typings install
+  - npm i
+  - npm run-script build
+  - rm -rf node_modules
+  - zip plugin * -r
+
+deploy:
+  provider: npm
+  email: "elektro-volk@yandex.ru"
+  api_key: "$NPM_API_KEY"
+  skip_cleanup: true
+  on:
+    branch: master

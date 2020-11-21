@@ -40,7 +40,7 @@ export default class PluginManager {
       const packageJson = await this.henta.util.load(`${pluginPath}/package.json`);
 
       // Check installed deps
-      if (packageJson.dependencies && !await fs.access(`${pluginPath}/node_modules`).then(() => true).catch(() => false)) {
+      if ((packageJson.dependencies || packageJson.devDependencies) && !await fs.access(`${pluginPath}/node_modules`).then(() => true).catch(() => false)) {
         this.henta.warning(`${pluginSlug} not installed dependencies. Installing...`);
         execSync(`cd src/plugins/${pluginSlug} && yarn`, {stdio: 'inherit'});
       }
