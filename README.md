@@ -5,7 +5,7 @@
 	<a href="https://www.npmjs.com/package/henta">
 		<img src="https://img.shields.io/npm/v/henta.svg?style=flat-square" alt="NPM version">
 	</a>
-	<a href="https://travis-ci.org/u14_team/henta">
+	<a href="https://travis-ci.org/u14-team/henta">
 		<img src="https://img.shields.io/travis/u14-team/henta.svg?style=flat-square" alt="Build Status">
 	</a>
 	<a href="https://www.npmjs.com/package/henta">

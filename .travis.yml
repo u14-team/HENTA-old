@@ -7,7 +7,6 @@ script:
   - npm i
   - npm run-script build
   - rm -rf node_modules
-  - zip plugin * -r
 
 deploy:
   provider: npm
