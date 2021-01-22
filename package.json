@@ -7,8 +7,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "yarn build && cd ../henta-minimal-sample && yarn build && yarn start",
-    "start": "node .",
+    "release-it": "yarn version --path && git push --follow-tags",
     "build": "tsc --project tsconfig.json"
   },
   "devDependencies": {
