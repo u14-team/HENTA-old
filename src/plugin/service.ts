@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import {Henta} from '../index';
 import AdmZip from 'adm-zip';
+import os from 'os';
 
 export class PluginMeta {
   slug: string;
@@ -41,16 +42,18 @@ export default class PluginsService {
 
   async installPlugin(pluginMeta) {
     const fullMeta = { ...pluginMeta, ...await this.henta.pluginRepositoryManager.getPluginInfo(pluginMeta) };
+    
+    const tempFilePath = `${os.tmpdir()}/henta-plugin-${fullMeta.uuid}.zip`;
     this.henta.log(`Downloading '${fullMeta.slug}' (${fullMeta.uuid}) from ${fullMeta.file}...`);
-    await this.henta.util.downloadFile(fullMeta.file, `temp/${fullMeta.uuid}.zip`);
+    await this.henta.util.downloadFile(fullMeta.file, tempFilePath);
+
     this.henta.log(`Unpacking plugin '${fullMeta.slug}' (${fullMeta.uuid})...`);
-    const zip = new AdmZip(`temp/${fullMeta.uuid}.zip`);
-    await new Promise(r => zip.extractAllToAsync(`src/plugins/${fullMeta.slug}`, true, r));
-    this.henta.log(`${fullMeta.slug} ${fullMeta.version} installed.`);
-    fs.unlink(`temp/${fullMeta.uuid}.zip`);
+    await new Promise(r => new AdmZip(tempFilePath).extractAllToAsync(`src/plugins/${fullMeta.slug}`, true, r));
+    fs.unlink(tempFilePath);
 
     pluginMeta.version = fullMeta.version;
     this.save();
+    this.henta.log(`${fullMeta.slug} ${fullMeta.version} installed.`);
   }
 
   async start() {
