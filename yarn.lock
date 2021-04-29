@@ -64,10 +64,10 @@ combined-stream@^1.0.8:
   dependencies:
     delayed-stream "~1.0.0"
 
-debug@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.2.0.tgz#7f150f93920e94c58f5574c2fd01a3110effe7f1"
-  integrity sha512-IX2ncY78vDTjZMFUdmsvIRFY2Cf4FnD0wRs+nQwJU8Lu99/tPFdb0VybiiMTPe3I6rQmwsqQqRBvxU+bZ/I8sg==
+debug@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
+  integrity sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==
   dependencies:
     ms "2.1.2"
 
@@ -86,10 +86,10 @@ event-target-shim@^5.0.0:
   resolved "https://registry.yarnpkg.com/event-target-shim/-/event-target-shim-5.0.1.tgz#5d4d3ebdf9583d63a5333ce2deb7480ab2b05789"
   integrity sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
 
-form-data@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.0.tgz#31b7e39c85f1355b7139ee0c647cf0de7f83c682"
-  integrity sha512-CKMFDglpbMi6PyN+brwB9Q/GOw0eAnsrEZDgcsH5Krhz5Od/haKHAX0NmQfha2zPPz0JpWzA7GJHGSnvCRLWsg==
+form-data@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
+  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   dependencies:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
@@ -100,15 +100,15 @@ has-flag@^4.0.0:
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-4.0.0.tgz#944771fd9c81c81265c4d6941860da06bb59479b"
   integrity sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==
 
-inspectable@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/inspectable/-/inspectable-1.0.0.tgz#0d5e4b2e8ca3b5de54b535ffc934d46fd22cf019"
-  integrity sha512-dw5aUFDQE+EIAXt3mBpIMEKQAlWSgzOlI/zGd/6mfbDDgfvkJFF4v2vLkHULvSvJ34CBP0jPGdlcd+6rVHtpVQ==
+inspectable@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/inspectable/-/inspectable-1.1.1.tgz#7a9ecc277e483b00ca9a4eadd08bf22659b23585"
+  integrity sha512-dMT0Qj7iXzWt4pjAVRkWBdq8u1Yro5BEHDwv5EdNrIcbDp1wfhrYrWu4P48eAK5VA5MmVWPtKUB/xvBQA92rXw==
 
-middleware-io@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/middleware-io/-/middleware-io-2.5.0.tgz#7ce650077259c1ca718fdf27e883c9fbc3e55966"
-  integrity sha512-UGy7fSCIX1QlTT+5lZAvp2M5mMBd0gdErmuAd7RWM9BTHnLH1iMSzHlelUe7di1EIgTcSFOlm7UL/pzP57+X/w==
+middleware-io@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/middleware-io/-/middleware-io-2.6.0.tgz#bce019eabf14ad0adb8c7ec328cb57ec37b8eb84"
+  integrity sha512-o/Aa6ZtufvXGFCKurGSu7QBCud4b2OAzj7LMR6eKMFX9IuC7UqDMDszKjo1pNIelhDX4TbAQVFobRRzLD1IgDQ==
 
 mime-db@1.44.0:
   version "1.44.0"
@@ -137,11 +137,6 @@ node-fetch@^2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
-sandwich-stream@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/sandwich-stream/-/sandwich-stream-2.0.2.tgz#6d1feb6cf7e9fe9fadb41513459a72c2e84000fa"
-  integrity sha512-jLYV0DORrzY3xaz/S9ydJL6Iz7essZeAfnAavsJ+zsJGZ1MOnsS52yRjU3uF3pJa/lla7+wisp//fxOwOH8SKQ==
-
 supports-color@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-7.1.0.tgz#68e32591df73e25ad1c4b49108a2ec507962bfd1"
@@ -149,15 +144,14 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-vk-io@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/vk-io/-/vk-io-4.0.3.tgz#16cff47de00350342d344d32af2e24ff1be47f2b"
-  integrity sha512-JvocZvqcpueMitagkhHDC28aZnHA24BY3GPibvKNrzhW3thqcS6RDe4YjOz7FGTL9o/xcPdgXzmBujKdT6tdTg==
+vk-io@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/vk-io/-/vk-io-4.2.0.tgz#ff16cd94ef8f96eacf3deac95eb448137bd8bbea"
+  integrity sha512-jBoS3NhJU5qHULcd2uYKvS3sT6aYxj66F0CD7ryeHci4jMpHVzmuT8NCueJrygoJDccm3pX+DzbGY6JeVaB8FQ==
   dependencies:
     abort-controller "^3.0.0"
-    debug "^4.2.0"
-    form-data "^3.0.0"
-    inspectable "^1.0.0"
-    middleware-io "^2.5.0"
+    debug "^4.3.1"
+    form-data "^4.0.0"
+    inspectable "^1.1.1"
+    middleware-io "^2.6.0"
     node-fetch "^2.6.1"
-    sandwich-stream "^2.0.2"
