@@ -2,7 +2,7 @@ import * as VKLib from 'vk-io';
 import { Henta } from './index';
 
 // Top JS :)
-const { VK } = VKLib['default'];
+const { VK } = VKLib;
 
 export class VKWorker {
   henta: Henta;
