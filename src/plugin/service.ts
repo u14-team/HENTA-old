@@ -35,9 +35,13 @@ export default class PluginsService {
     if (exists) {
       return;
     }
-
+    const botCfg = await this.henta.util.loadConfig('bot.json');
+    if (botCfg.pluginUpdate) {
     this.henta.log(`Plugin '${pluginMeta.slug}' not found.`);
     await this.installPlugin(pluginMeta);
+    } else {
+      this.henta.log(`Plugin '${pluginMeta.slug}' not found, but pluginUpdate = false (bot.json).`);
+    }
   }
 
   async installPlugin(pluginMeta) {
